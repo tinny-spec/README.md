@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cristine Jean S. Pamilgan — AI Trainer & Data Annotation Specialist</title>
+<style>
+  :root{
+    --bg: #f7f9fc;
+    --surface: #ffffff;
+    --surface-2: #eef2fb;
+    --ink: #0f172a;
+    --ink-soft: #475569;
+    --line: #dbe4f3;
+    --blue-900: #12296b;
+    --blue-700: #1e40af;
+    --blue-600: #2563eb;
+    --blue-500: #3b82f6;
+    --blue-300: #93c5fd;
+    --blue-100: #dbeafe;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --tag-bg: #eaf1ff;
+    --tag-border: #bcd4f7;
+    --shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px -12px rgba(18,41,107,.12);
+  }
+  html[data-theme="dark"]{
+    --bg: #060b18;
+    --surface: #0d152b;
+    --surface-2: #101b38;
+    --ink: #e7edfb;
+    --ink-soft: #9db0d6;
+    --line: #1d2c52;
+    --blue-900: #dbe8ff;
+    --blue-700: #7fa8ff;
+    --blue-600: #5b8def;
+    --blue-500: #3b82f6;
+    --blue-300: #274a8c;
+    --blue-100: #16264a;
+    --tag-bg: #10203f;
+    --tag-border: #24406f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 30px -14px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    transition:background .25s ease, color .25s ease;
+  }
+  a{color:var(--blue-600); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:960px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{
+    font-family:var(--mono); font-size:13px; font-weight:600;
+    color:var(--ink-soft); letter-spacing:.02em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .dot{width:8px; height:8px; border-radius:50%; background:var(--blue-500); box-shadow:0 0 0 3px var(--blue-100);}
+  nav{display:flex; gap:22px;}
+  nav a{color:var(--ink-soft); font-size:13.5px; font-weight:500;}
+  nav a:hover{color:var(--blue-600); text-decoration:none;}
+  .theme-toggle{
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    border-radius:20px; padding:6px 12px; font-size:12px; font-family:var(--mono);
+    cursor:pointer; display:flex; align-items:center; gap:6px;
+  }
+  .theme-toggle:hover{border-color:var(--blue-500);}
+
+  /* ---------- Hero ---------- */
+  header.hero{
+    padding:76px 0 64px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(600px 260px at 85% -10%, var(--blue-100), transparent 60%);
+    opacity:.9; pointer-events:none;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; color:var(--blue-600);
+    text-transform:uppercase; letter-spacing:.12em; margin-bottom:18px;
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--tag-bg); border:1px solid var(--tag-border);
+    padding:5px 12px; border-radius:6px;
+  }
+  h1.name{
+    font-size:44px; margin:0 0 10px; font-weight:800; letter-spacing:-0.02em;
+    color:var(--blue-900);
+  }
+  .role-line{
+    font-size:19px; color:var(--ink-soft); margin:0 0 22px; max-width:620px;
+  }
+  .role-line strong{color:var(--ink); font-weight:600;}
+  .tagline{
+    font-family:var(--mono); font-size:14px; color:var(--blue-700);
+    border-left:3px solid var(--blue-500); padding-left:14px; max-width:520px;
+    margin:0 0 28px;
+  }
+  .hero-badges{display:flex; flex-wrap:wrap; gap:8px;}
+  .pill{
+    font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:20px;
+    background:var(--blue-600); color:#fff; letter-spacing:.01em;
+  }
+  .pill.alt{background:var(--surface); color:var(--blue-700); border:1px solid var(--tag-border);}
+
+  /* ---------- Sections ---------- */
+  section{padding:56px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{display:flex; align-items:baseline; gap:12px; margin-bottom:28px;}
+  .section-head .idx{font-family:var(--mono); font-size:13px; color:var(--blue-500); font-weight:700;}
+  .section-head h2{font-size:22px; margin:0; letter-spacing:-0.01em;}
+  .lede{color:var(--ink-soft); max-width:640px; margin-bottom:28px;}
+
+  /* ---------- About ---------- */
+  .about-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:40px;}
+  .about-grid p{color:var(--ink-soft); margin:0 0 14px;}
+  .stat-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .stat-card + .stat-card{margin-top:14px;}
+  .stat-card .k{font-family:var(--mono); font-size:12px; color:var(--blue-600); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px;}
+  .stat-card .v{font-size:15px; font-weight:600;}
+
+  /* ---------- Experience ---------- */
+  .job{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:24px 26px; box-shadow:var(--shadow); margin-bottom:18px;
+    position:relative;
+  }
+  .job-head{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:12px;}
+  .job-title{font-size:16.5px; font-weight:700; color:var(--blue-900);}
+  .job-company{font-family:var(--mono); font-size:12.5px; color:var(--blue-600); background:var(--tag-bg); border:1px solid var(--tag-border); padding:3px 10px; border-radius:6px;}
+  .job ul{margin:0; padding-left:18px; color:var(--ink-soft); font-size:14.5px;}
+  .job ul li{margin-bottom:5px;}
+
+  details.more{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:18px 26px; box-shadow:var(--shadow);
+  }
+  details.more summary{cursor:pointer; font-weight:600; font-size:14.5px; color:var(--blue-700);}
+  details.more ul{margin:14px 0 0; padding-left:18px; color:var(--ink-soft); font-size:14.5px;}
+
+  /* ---------- Skills — annotation tag styling (signature element) ---------- */
+  .skill-block{margin-bottom:26px;}
+  .skill-block h3{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--ink-soft); margin:0 0 12px; font-weight:600;
+  }
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--mono); font-size:12.5px; color:var(--blue-700);
+    background:var(--tag-bg); border:1px solid var(--tag-border);
+    padding:5px 10px 5px 8px; border-radius:5px; display:inline-flex; align-items:center; gap:6px;
+    white-space:nowrap;
+  }
+  .tag::before{content:"◆"; font-size:8px; color:var(--blue-500);}
+
+  /* ---------- Certifications ---------- */
+  .cert-list{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .cert{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; font-size:14px; display:flex; gap:10px; align-items:flex-start;
+    box-shadow:var(--shadow);
+  }
+  .cert .mark{color:var(--blue-500); font-family:var(--mono); font-weight:700;}
+
+  /* ---------- Projects — GitHub-style cards ---------- */
+  .proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .proj-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .proj-top{display:flex; align-items:center; justify-content:space-between;}
+  .proj-name{font-weight:700; font-size:15px; color:var(--blue-700); display:flex; align-items:center; gap:8px;}
+  .proj-name svg{width:16px; height:16px; fill:var(--blue-500);}
+  .proj-desc{color:var(--ink-soft); font-size:13.8px; flex:1;}
+  .proj-meta{display:flex; gap:14px; font-size:12px; font-family:var(--mono); color:var(--ink-soft);}
+  .proj-meta span{display:flex; align-items:center; gap:5px;}
+  .lang-dot{width:8px; height:8px; border-radius:50%; display:inline-block;}
+
+  /* ---------- Contact ---------- */
+  .contact-row{display:flex; flex-wrap:wrap; gap:12px;}
+  .contact-card{
+    flex:1; min-width:200px;
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .contact-card .k{font-family:var(--mono); font-size:11.5px; text-transform:uppercase; color:var(--ink-soft); letter-spacing:.06em; margin-bottom:6px;}
+  .contact-card .v{font-weight:600; font-size:14.5px;}
+
+  footer{
+    text-align:center; padding:32px 24px; color:var(--ink-soft);
+    font-size:13px; font-family:var(--mono);
+  }
+
+  @media (max-width: 720px){
+    .wrap{padding:0 18px;}
+    nav{display:none;}
+    h1.name{font-size:32px;}
+    .about-grid{grid-template-columns:1fr;}
+    .cert-list{grid-template-columns:1fr;}
+    .proj-grid{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> cristine-pamilgan / portfolio</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle">🌙 <span id="themeLabel">Dark</span></button>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">● available for AI training &amp; annotation work</div>
+    <h1 class="name">Cristine Jean S. Pamilgan</h1>
+    <p class="role-line"><strong>AI Trainer</strong> · <strong>Data Annotation Specialist</strong> · Prompt Evaluator · AI Data Specialist</p>
+    <p class="tagline">"Helping build better AI through accurate data, thoughtful evaluation, and continuous learning."</p>
+    <div class="hero-badges">
+      <span class="pill">AI / LLM Trainer</span>
+      <span class="pill alt">Data Annotation</span>
+      <span class="pill alt">Prompt Evaluation</span>
+      <span class="pill alt">Dataset QA</span>
+      <span class="pill alt">RLHF Fundamentals</span>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">01</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm an AI Trainer and Data Annotation Specialist with professional experience preparing, validating, reviewing, and improving datasets used for AI and Large Language Model training.</p>
+        <p>My work spans data annotation, data labeling, dataset validation, prompt evaluation, quality assurance, content review, data analysis, research, fact verification, transcription, and English language evaluation.</p>
+        <p>I enjoy helping build reliable AI systems by ensuring training data is accurate, consistent, and follows complex annotation guidelines — backed by strong analytical thinking, exceptional attention to detail, and excellent written English (C1 Advanced).</p>
+      </div>
+      <div>
+        <div class="stat-card"><div class="k">English proficiency</div><div class="v">C1 Advanced</div></div>
+        <div class="stat-card"><div class="k">Location</div><div class="v">Philippines</div></div>
+        <div class="stat-card"><div class="k">Core strength</div><div class="v">Attention to detail &amp; guideline adherence</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">02</span><h2>Professional Experience</h2></div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">AI/LLM Trainer</div>
+        <div class="job-company">Innodata Knowledge Services</div>
+      </div>
+      <ul>
+        <li>Training and improving AI models</li>
+        <li>Dataset preparation, validation, and quality assurance</li>
+        <li>Prompt evaluation and reviewing AI-generated responses</li>
+        <li>Following complex annotation guidelines</li>
+        <li>Data analysis and team collaboration</li>
+        <li>Delivering high-quality annotation work under deadlines</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">Data Annotator &amp; Transcriber</div>
+        <div class="job-company">CrowdGen (Appen)</div>
+      </div>
+      <ul>
+        <li>Image and text annotation</li>
+        <li>Audio and video transcription</li>
+        <li>Data labeling and categorization</li>
+        <li>Quality review and guideline adherence</li>
+        <li>Data verification</li>
+      </ul>
+    </div>
+
+    <details class="more">
+      <summary>Additional Experience</summary>
+      <ul>
+        <li>Customer Service</li>
+        <li>Administrative Support</li>
+        <li>English Language Teaching</li>
+        <li>Documentation</li>
+        <li>Data Encoding</li>
+      </ul>
+      <p style="color:var(--ink-soft); font-size:13.8px; margin-top:12px;">These experiences built the communication, organization, problem-solving, and attention to detail that support AI training work today.</p>
+    </details>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">03</span><h2>Skills</h2></div>
+
+    <div class="skill-block">
+      <h3>AI &amp; Machine Learning</h3>
+      <div class="tag-row">
+        <span class="tag">ai_training</span>
+        <span class="tag">llm_training</span>
+        <span class="tag">prompt_evaluation</span>
+        <span class="tag">prompt_engineering</span>
+        <span class="tag">rlhf_fundamentals</span>
+        <span class="tag">human_feedback</span>
+        <span class="tag">dataset_review</span>
+        <span class="tag">dataset_validation</span>
+        <span class="tag">data_annotation</span>
+        <span class="tag">data_labeling</span>
+        <span class="tag">data_categorization</span>
+        <span class="tag">data_qa</span>
+        <span class="tag">content_moderation</span>
+        <span class="tag">research</span>
+        <span class="tag">fact_verification</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <h3>Technical Tools</h3>
+      <div class="tag-row">
+        <span class="tag">python</span>
+        <span class="tag">github</span>
+        <span class="tag">github_copilot</span>
+        <span class="tag">google_workspace</span>
+        <span class="tag">microsoft_office</span>
+        <span class="tag">labellr</span>
+        <span class="tag">inqscribe</span>
+        <span class="tag">trello</span>
+        <span class="tag">asana</span>
+        <span class="tag">canva</span>
+        <span class="tag">zoho</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <h3>Professional Skills</h3>
+      <div class="tag-row">
+        <span class="tag">critical_thinking</span>
+        <span class="tag">analytical_skills</span>
+        <span class="tag">detail_oriented</span>
+        <span class="tag">written_communication</span>
+        <span class="tag">time_management</span>
+        <span class="tag">remote_collaboration</span>
+        <span class="tag">documentation</span>
+        <span class="tag">problem_solving</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">04</span><h2>Certifications</h2></div>
+    <div class="cert-list">
+      <div class="cert"><span class="mark">✓</span> Google Data Analytics — Foundations: Data, Data, Everywhere</div>
+      <div class="cert"><span class="mark">✓</span> Data Annotation for Aspiring BPO Professionals</div>
+      <div class="cert"><span class="mark">✓</span> Career Development for Multimodal Intelligence</div>
+      <div class="cert"><span class="mark">✓</span> Python Development with ChatGPT</div>
+      <div class="cert"><span class="mark">✓</span> GitHub Copilot with Python</div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">05</span><h2>Featured Projects</h2></div>
+    <div class="proj-grid">
+
+      <a class="proj-card" href="https://github.com/tinny-spec/ai-training-portfolio/tree/main/01_ai_prompt_evaluation_portfolio" style="text-decoration:none;">
+        <div class="proj-top">
+          <div class="proj-name">
+            <svg viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 1 1 0-1.5h1.75v-2H4.5a1 1 0 0 0-.916 1.395.75.75 0 1 1-1.37.61A2.5 2.5 0 0 1 2 11.5Zm10.5-1H4.5a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8Z"/></svg>
+            AI Prompt Evaluation Portfolio
+          </div>
+        </div>
+        <div class="proj-desc">Side-by-side response scoring against a rubric (accuracy, completeness, helpfulness, safety, grammar, instruction following) — e.g. rating two candidate answers to the same prompt on a 1–10 scale with reasoning for each score.</div>
+        <div class="proj-meta"><span><span class="lang-dot" style="background:var(--blue-500);"></span>Python</span><span>Public</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/tinny-spec/ai-training-portfolio/tree/main/02_data_annotation_portfolio" style="text-decoration:none;">
+        <div class="proj-top">
+          <div class="proj-name">
+            <svg viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 1 1 0-1.5h1.75v-2H4.5a1 1 0 0 0-.916 1.395.75.75 0 1 1-1.37.61A2.5 2.5 0 0 1 2 11.5Zm10.5-1H4.5a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8Z"/></svg>
+            Data Annotation Portfolio
+          </div>
+        </div>
+        <div class="proj-desc">Sample annotation tasks across three formats: sentiment-labeled text classification, named entity recognition (person/organization/location), and image annotation with object detection &amp; bounding boxes on street-scene imagery.</div>
+        <div class="proj-meta"><span><span class="lang-dot" style="background:#e0b23b;"></span>Jupyter</span><span>Public</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/tinny-spec/ai-training-portfolio/tree/main/03_dataset_quality_checker" style="text-decoration:none;">
+        <div class="proj-top">
+          <div class="proj-name">
+            <svg viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 1 1 0-1.5h1.75v-2H4.5a1 1 0 0 0-.916 1.395.75.75 0 1 1-1.37.61A2.5 2.5 0 0 1 2 11.5Zm10.5-1H4.5a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8Z"/></svg>
+            Dataset Quality Checker
+          </div>
+        </div>
+        <div class="proj-desc">A pandas-based script that scans a labeled CSV for row counts, duplicate rows, missing values, and unique label distribution — surfacing data-quality issues before a dataset goes into training.</div>
+        <div class="proj-meta"><span><span class="lang-dot" style="background:var(--blue-500);"></span>Python</span><span>Public</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/tinny-spec/ai-training-portfolio/tree/main/04_prompt_engineering_collection" style="text-decoration:none;">
+        <div class="proj-top">
+          <div class="proj-name">
+            <svg viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 1 1 0-1.5h1.75v-2H4.5a1 1 0 0 0-.916 1.395.75.75 0 1 1-1.37.61A2.5 2.5 0 0 1 2 11.5Zm10.5-1H4.5a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8Z"/></svg>
+            Prompt Engineering Collection
+          </div>
+        </div>
+        <div class="proj-desc">A categorized set of prompts for common AI tasks — summarization, classification, information extraction, translation, and step-by-step reasoning — each written as a reusable template.</div>
+        <div class="proj-meta"><span><span class="lang-dot" style="background:#3572A5;"></span>Markdown</span><span>Public</span></div>
+      </a>
+
+      <a class="proj-card" href="https://github.com/tinny-spec/ai-training-portfolio/tree/main/05_ai_evaluation_samples" style="text-decoration:none; grid-column: 1 / -1;">
+        <div class="proj-top">
+          <div class="proj-name">
+            <svg viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 1 1 0-1.5h1.75v-2H4.5a1 1 0 0 0-.916 1.395.75.75 0 1 1-1.37.61A2.5 2.5 0 0 1 2 11.5Zm10.5-1H4.5a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8Z"/></svg>
+            AI Evaluation Samples
+          </div>
+        </div>
+        <div class="proj-desc">Response-quality and hallucination-detection examples: scoring a professional-email response against a rubric, and checking model answers against known-correct facts to flag hallucinated or incomplete claims across accuracy, completeness, relevance, safety, and clarity.</div>
+        <div class="proj-meta"><span><span class="lang-dot" style="background:var(--blue-500);"></span>Python</span><span>Public</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head"><span class="idx">06</span><h2>Contact</h2></div>
+    <div class="contact-row">
+      <div class="contact-card">
+        <div class="k">Email</div>
+        <div class="v"><a href="mailto:tinepamilgan08@gmail.com">tinepamilgan08@gmail.com</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="k">LinkedIn</div>
+        <div class="v"><a href="https://linkedin.com/in/cristine-jean-pamilgan-1085501a5/" target="_blank" rel="noopener">linkedin.com/in/cristine-jean-pamilgan</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="k">GitHub</div>
+        <div class="v"><a href="https://github.com/tinny-spec" target="_blank" rel="noopener">github.com/tinny-spec</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="k">Location</div>
+        <div class="v">Philippines</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>designed for recruiters hiring AI Trainers, Data Annotators, Prompt Evaluators &amp; RLHF Specialists</footer>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const label = document.getElementById('themeLabel');
+  function applyTheme(t){
+    root.setAttribute('data-theme', t);
+    label.textContent = t === 'dark' ? 'Light' : 'Dark';
+    btn.firstChild.textContent = t === 'dark' ? '☀️ ' : '🌙 ';
+  }
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(prefersDark ? 'dark' : 'light');
+  btn.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+</script>
+
+</body>
+</html>
